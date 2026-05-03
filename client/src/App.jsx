@@ -16,7 +16,7 @@ axios.interceptors.request.use(config => {
 const Navbar = ({ user, logout }) => (
   <nav className="navbar">
     <div className="container">
-      <Link to="/" className="nav-brand">Nexus Shop</Link>
+      <Link to="/" className="nav-brand">Amazon Clone</Link>
       <div className="nav-links">
         <Link to="/">Products</Link>
         {user ? (
