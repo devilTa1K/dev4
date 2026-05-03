@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27020:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ecom-net
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/ecommerce
+      - PORT=5000
+      - JWT_SECRET=some-secret-key
+    depends_on:
+      - mongo
+    networks:
+      - ecom-net
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3003:80"
+    depends_on:
+      - server
+    networks:
+      - ecom-net
+
+volumes:
+  mongo-data:
+
+networks:
+  ecom-net:
+    driver: bridge
